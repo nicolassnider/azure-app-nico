@@ -34,7 +34,7 @@ public class EngineerService : IEngineerService
         }
     }
 
-    public async Task UpdateEngineer(Engineer engineer)
+    public async Task UpsertEngineer(Engineer engineer)
     {
         try
         {

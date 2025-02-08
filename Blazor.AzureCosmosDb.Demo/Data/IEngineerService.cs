@@ -7,5 +7,5 @@ public interface IEngineerService
     Task DeleteEngineer(string? id, string? partitionKey);
     Task<List<Engineer>> GetEngineerDetails();
     Task<Engineer> GetEngineerDetailsById(string? id, string? partitionKey);
-    Task UpdateEngineer(Engineer engineer);
+    Task UpsertEngineer(Engineer engineer);
 }
