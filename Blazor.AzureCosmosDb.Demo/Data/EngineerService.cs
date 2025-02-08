@@ -19,32 +19,32 @@ public class EngineerService : IEngineerService
         return container;
     }
 
-    public async Task AddEngineer(Engineer engineer)
-    {
-        try
-        {
-            engineer.id = Guid.NewGuid();
-            var container = GetContainerClient();
-            var response = await container.CreateItemAsync(engineer, new PartitionKey(engineer.id.ToString()));
-            Console.Write(response.StatusCode);
-        }
-        catch (Exception Ex)
-        {
-            Ex.Message.ToString();
-        }
-    }
-
     public async Task UpsertEngineer(Engineer engineer)
     {
         try
         {
+            if (engineer.id == null)
+            {
+                engineer.id = Guid.NewGuid();
+            }
             var container = GetContainerClient();
             var updateRes = await container.UpsertItemAsync(engineer, new PartitionKey(engineer.id.ToString()));
             Console.Write(updateRes.StatusCode);
         }
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Console.WriteLine($"Resource not found: {ex.Message}");
+            // Handle the case where the resource was not found
+        }
+        catch (CosmosException ex)
+        {
+            Console.WriteLine($"CosmosException: {ex.Message}");
+            // Handle other Cosmos DB exceptions
+        }
         catch (Exception ex)
         {
-            throw new Exception("Exception", ex);
+            Console.WriteLine($"Exception: {ex.Message}");
+            // Handle general exceptions
         }
     }
 
