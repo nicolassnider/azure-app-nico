@@ -2,34 +2,45 @@
 
 const string serviceBusConnectionString = "<connection-string>";
 const string topicName = "<topic-name>";
-const int maxNumberOfMessages = 3;
+const string sub1Name = "<sb1-name>";
 
 ServiceBusClient client = new ServiceBusClient(serviceBusConnectionString);
-ServiceBusSender sender = client.CreateSender(topicName);
+ServiceBusProcessor processor = default;
 
-using ServiceBusMessageBatch batch = await sender.CreateMessageBatchAsync();
-
-for (int i = 1; i < maxNumberOfMessages; i++)
+async Task MessageHandler(ProcessMessageEventArgs processMessageEventArgs)
 {
-    if (!batch.TryAddMessage(new ServiceBusMessage($"This is message {i}")))
-    {
-        Console.WriteLine($"Message {i} not addeed to the list");
-    }
+    string body = processMessageEventArgs.Message.Body.ToString();
+    Console.WriteLine($"Received: {body} - subscription: {sub1Name}");
+    await processMessageEventArgs.CompleteMessageAsync(processMessageEventArgs.Message);
 }
+
+Task ErrorHandler(ProcessErrorEventArgs processErrorEventArgs)
+{
+    Console.WriteLine($"An error occurred. Error: {processErrorEventArgs.Exception.Message}");
+    return Task.CompletedTask;
+}
+
+client = new ServiceBusClient(serviceBusConnectionString);
+processor = client.CreateProcessor(topicName, sub1Name, new ServiceBusProcessorOptions());
 
 try
 {
-    await sender.SendMessagesAsync(batch);
-    Console.WriteLine("Messages sent successfully");
+    processor.ProcessMessageAsync += MessageHandler;
+    processor.ProcessErrorAsync += ErrorHandler;
 
+    await processor.StartProcessingAsync();
+    Console.WriteLine("Press any key to end processing");
+    Console.ReadKey();
+
+    await processor.StopProcessingAsync();
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"An error occurred: {ex.Message}");
+
     throw;
 }
 finally
 {
-    await sender.DisposeAsync();
+    await processor.DisposeAsync();
     await client.DisposeAsync();
 }
