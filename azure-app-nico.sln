@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure-app-nico", "azure-app
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.AzureCosmosDb.Demo", "Blazor.AzureCosmosDb.Demo\Blazor.AzureCosmosDb.Demo.csproj", "{ED3FCB45-71BC-4941-A40B-163E2F1BDC98}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureServiceBus", "AzureServiceBus", "{365FEE4A-FE06-4E02-80E9-E9D45C0EA002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console.ServiceBusSender.Demo", "Console.ServiceBusSender.Demo\Console.ServiceBusSender.Demo.csproj", "{742B982F-108D-40B5-AF14-E28A61E48CB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,15 @@ Global
 		{ED3FCB45-71BC-4941-A40B-163E2F1BDC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED3FCB45-71BC-4941-A40B-163E2F1BDC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED3FCB45-71BC-4941-A40B-163E2F1BDC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742B982F-108D-40B5-AF14-E28A61E48CB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742B982F-108D-40B5-AF14-E28A61E48CB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742B982F-108D-40B5-AF14-E28A61E48CB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742B982F-108D-40B5-AF14-E28A61E48CB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{742B982F-108D-40B5-AF14-E28A61E48CB5} = {365FEE4A-FE06-4E02-80E9-E9D45C0EA002}
 	EndGlobalSection
 EndGlobal
